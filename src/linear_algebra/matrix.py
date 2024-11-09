@@ -49,3 +49,6 @@ class Matrix:
             if self.get_row(i) != other.get_row(i):
                 return False
         return True
+
+    def clone(self) -> 'Matrix':
+        return Matrix([row.copy() for row in self.__data])
