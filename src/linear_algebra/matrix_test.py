@@ -1,4 +1,4 @@
-from matrix import Matrix
+from .matrix import Matrix
 import pytest
 
 
@@ -48,3 +48,33 @@ def test_matrix_get_column():
     matrix.add_row([5, 6])
     assert matrix.get_column(0) == [1, 3, 5]
     assert matrix.get_column(1) == [2, 4, 6]
+
+
+def test_matrix_equals_true():
+    matrix1 = Matrix([[1, 2], [3, 4]])
+    matrix2 = Matrix([[1, 2], [3, 4]])
+    assert matrix1.equals(matrix2) is True
+
+
+def test_matrix_equals_false_different_dimensions():
+    matrix1 = Matrix([[1, 2], [3, 4]])
+    matrix2 = Matrix([[1, 2, 3], [4, 5, 6]])
+    assert matrix1.equals(matrix2) is False
+
+
+def test_matrix_equals_false_different_values():
+    matrix1 = Matrix([[1, 2], [3, 4]])
+    matrix2 = Matrix([[1, 2], [4, 3]])
+    assert matrix1.equals(matrix2) is False
+
+
+def test_matrix_equals_false_different_row_count():
+    matrix1 = Matrix([[1, 2], [3, 4]])
+    matrix2 = Matrix([[1, 2]])
+    assert matrix1.equals(matrix2) is False
+
+
+def test_matrix_equals_false_different_column_count():
+    matrix1 = Matrix([[1, 2], [3, 4]])
+    matrix2 = Matrix([[1], [3]])
+    assert matrix1.equals(matrix2) is False

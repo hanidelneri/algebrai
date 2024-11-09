@@ -1,5 +1,5 @@
 import pytest
-from arithmetic import greatest_common_divisor, least_common_multiple
+from .arithmetic import greatest_common_divisor, least_common_multiple
 
 
 @pytest.mark.parametrize("a, b, expected", [(10, 5, 5), (5, 10, 5), (10, 0, 10), (2, 3, 1)])
