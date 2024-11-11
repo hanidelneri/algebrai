@@ -67,3 +67,29 @@ def to_echelon_form(a: Matrix) -> Matrix:
             result.replace_row(j, new_row)
 
     return result
+
+
+def to_reduced_echelon_form(a: Matrix) -> Matrix:
+    result = a.clone()
+    for i in range(a.get_row_count()):
+        pivot_row = result.get_row(i)
+        if i >= a.get_column_count():
+            continue
+        pivot_element = pivot_row[i]
+        if pivot_element == 0:
+            continue
+        pivot_row = [x / pivot_element for x in pivot_row]
+        result.replace_row(i, pivot_row)
+
+        for j in range(a.get_row_count()):
+            if i == j:
+                continue
+            row = result.get_row(j)
+            # Scale pivot_row and row by their respective factors
+            factor = row[i]
+            new_row = [
+                row[k] - factor * pivot_row[k] for k in range(a.get_column_count())
+            ]
+            result.replace_row(j, new_row)
+
+    return result

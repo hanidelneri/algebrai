@@ -1,6 +1,12 @@
 import pytest
 
-from .arithmetics import add, multiply, to_echelon_form, transpose
+from .arithmetics import (
+    add,
+    multiply,
+    to_echelon_form,
+    to_reduced_echelon_form,
+    transpose,
+)
 from .matrix import Matrix
 
 
@@ -110,4 +116,39 @@ def test_to_echelon_form_zero_matrix():
     matrix = Matrix([[0, 0], [0, 0]])
     expected = Matrix([[0, 0], [0, 0]])
     result = to_echelon_form(matrix)
+    assert result.equals(expected)
+
+
+def test_to_reduced_echelon_form():
+    matrix = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    expected = Matrix([[1, 0, -1], [0, 1, 2], [0, 0, 0]])
+    result = to_reduced_echelon_form(matrix)
+    assert result.equals(expected)
+
+
+def test_to_reduced_echelon_form_already_reduced():
+    matrix = Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+    expected = Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+    result = to_reduced_echelon_form(matrix)
+    assert result.equals(expected)
+
+
+def test_to_reduced_echelon_form_zero_matrix():
+    matrix = Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    expected = Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    result = to_reduced_echelon_form(matrix)
+    assert result.equals(expected)
+
+
+def test_to_reduced_echelon_form_single_row():
+    matrix = Matrix([[2, 4, 6]])
+    expected = Matrix([[1, 2, 3]])
+    result = to_reduced_echelon_form(matrix)
+    assert result.equals(expected)
+
+
+def test_to_reduced_echelon_form_single_column():
+    matrix = Matrix([[2], [4], [6]])
+    expected = Matrix([[1], [0], [0]])
+    result = to_reduced_echelon_form(matrix)
     assert result.equals(expected)
