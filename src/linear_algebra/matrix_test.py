@@ -1,5 +1,6 @@
-from .matrix import Matrix
 import pytest
+
+from .matrix import Matrix
 
 
 def test_matrix_raises_exception_different_row_size():

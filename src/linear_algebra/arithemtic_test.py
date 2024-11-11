@@ -1,6 +1,6 @@
 import pytest
 
-from .arithmetics import add, multiply, transpose, to_echelon_form
+from .arithmetics import add, multiply, to_echelon_form, transpose
 from .matrix import Matrix
 
 
