@@ -52,3 +52,6 @@ class Matrix:
 
     def clone(self) -> 'Matrix':
         return Matrix([row.copy() for row in self.__data])
+
+    def get_rows(self) -> List[List[float]]:
+        return self.__data

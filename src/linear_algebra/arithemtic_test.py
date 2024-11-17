@@ -6,6 +6,8 @@ from .arithmetics import (
     to_echelon_form,
     to_reduced_echelon_form,
     transpose,
+    to_augmented_matrix,
+    inverse,
 )
 from .matrix import Matrix
 
@@ -152,3 +154,59 @@ def test_to_reduced_echelon_form_single_column():
     expected = Matrix([[1], [0], [0]])
     result = to_reduced_echelon_form(matrix)
     assert result.equals(expected)
+
+
+def test_to_augmented_matrix_simple():
+    # Test case 1: Simple 2x2 matrices
+    matrix_a = Matrix([[1, 2], [3, 4]])
+    matrix_b = Matrix([[5, 6], [7, 8]])
+    expected = Matrix([[1, 2, 5, 6], [3, 4, 7, 8]])
+    result = to_augmented_matrix(matrix_a, matrix_b)
+    assert result.equals(expected)
+
+
+def test_to_augmented_matrix_different_sizes():
+    # Test case 2: 3x1 and 3x2 matrices
+    matrix_a = Matrix([[1], [2], [3]])
+    matrix_b = Matrix([[4, 5], [6, 7], [8, 9]])
+    expected = Matrix([[1, 4, 5], [2, 6, 7], [3, 8, 9]])
+    result = to_augmented_matrix(matrix_a, matrix_b)
+    assert result.equals(expected)
+
+
+def test_to_augmented_matrix_raises_value_error():
+    # Test case 3: Matrices with different row counts (should raise ValueError)
+    matrix_a = Matrix([[1, 2], [3, 4]])
+    matrix_b = Matrix([[5, 6]])
+    with pytest.raises(ValueError):
+        to_augmented_matrix(matrix_a, matrix_b)
+
+
+def test_inverse_simple():
+    # Test case 1: Simple 2x2 matrix
+    matrix = Matrix([[4, 7], [2, 6]])
+    expected = Matrix([[0.6, -0.7], [-0.2, 0.4]])
+    result = inverse(matrix)
+    assert result.equals(expected)
+
+
+def test_inverse_identity():
+    # Test case 2: Identity matrix
+    matrix = Matrix([[1, 0], [0, 1]])
+    expected = Matrix([[1, 0], [0, 1]])
+    result = inverse(matrix)
+    assert result.equals(expected)
+
+
+def test_inverse_raises_value_error():
+    # Test case 3: Non-square matrix (should raise ValueError)
+    matrix = Matrix([[1, 2, 3], [4, 5, 6]])
+    with pytest.raises(ValueError):
+        inverse(matrix)
+
+
+def test_inverse_singular_matrix():
+    # Test case 4: Singular matrix (should raise ValueError or handle appropriately)
+    matrix = Matrix([[1, 2], [2, 4]])
+    with pytest.raises(ValueError):
+        inverse(matrix)

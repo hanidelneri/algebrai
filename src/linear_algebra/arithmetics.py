@@ -93,3 +93,37 @@ def to_reduced_echelon_form(a: Matrix) -> Matrix:
             result.replace_row(j, new_row)
 
     return result
+
+
+def to_augmented_matrix(a: Matrix, b: Matrix) -> Matrix:
+    if a.get_row_count() != b.get_row_count():
+        raise ValueError("Matrices must have the same number of rows")
+    result = Matrix()
+    for i in range(a.get_row_count()):
+        row = a.get_row(i) + b.get_row(i)
+        result.add_row(row)
+    return result
+
+
+def identity_matrix(size: int) -> Matrix:
+    result = Matrix()
+    for i in range(size):
+        row = [0] * size
+        row[i] = 1
+        result.add_row(row)
+    return result
+
+
+def inverse(a: Matrix) -> Matrix:
+    if a.get_row_count() != a.get_column_count():
+        raise ValueError("Matrix must be square")
+
+    augmented_matrix = to_augmented_matrix(a, identity_matrix(a.get_row_count()))
+    echelon_form = to_echelon_form(augmented_matrix)
+
+    # Extract the right half of the augmented matrix
+    rows = echelon_form.get_rows()
+    col_count = a.get_column_count()
+    inverse_matrix_data = [row[col_count:] for row in rows]
+
+    return Matrix(inverse_matrix_data)
